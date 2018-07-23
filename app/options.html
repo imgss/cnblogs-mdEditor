@@ -13,7 +13,11 @@
     <option value="dark">dark</option>
    </select>
   <script>
-    
+  theme.onchange(function(){
+    chrome.storage.sync.set({
+      theme: this.value
+    })
+  })  
   </script>
 </body>
 </html>

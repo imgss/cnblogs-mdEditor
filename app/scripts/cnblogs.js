@@ -5,14 +5,12 @@ var textarea = document.getElementById('Editor_Edit_EditorBody');
 var editor = CodeMirror.fromTextArea(textarea, {
   mode:  'markdown',
   value: '',
+  theme: 'default 3024-night',
   lineNumbers: false
 });
-console.log(editor);
 editor.on('change', function(target, e){
   textarea.value = target.getValue()
-  console.log(e)
 })
 textarea.addEventListener('input', function(){
-  console.log(this.value)
   editor.doc.setValue(this.value)
 })
