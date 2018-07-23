@@ -1,0 +1,35 @@
+{
+  "name": "__MSG_appName__",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "__MSG_appDescription__",
+  "icons": {
+    "16": "images/icon-16.png",
+    "128": "images/icon-128.png"
+  },
+  "default_locale": "en",
+  "content_scripts": 
+    [
+      {
+          "matches": ["https://i.cnblogs.com/*"],
+          "js": ["scripts/jquery.js","scripts/codemirror.js","scripts/markdown.js","scripts/marked.js","scripts/editor.md.js","scripts/cnblogs.js"],
+          "css": ["styles/editor.md.css","styles/codemirror.css"],
+          "run_at": "document_end"
+      }
+    ],
+  "options_page": "options.html",
+  "permissions": [
+    "clipboardRead",
+    "clipboardWrite",
+    "webRequest",
+    "*://*.google.com/"
+  ],
+  "page_action": {
+    "default_icon": {
+      "19": "images/icon-19.png",
+      "38": "images/icon-38.png"
+    },
+    "default_title": "cnblogs",
+    "default_popup": "popup.html"
+  }
+}
