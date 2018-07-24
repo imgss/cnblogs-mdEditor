@@ -12,7 +12,7 @@
     [
       {
           "matches": ["https://i.cnblogs.com/*"],
-          "js": ["scripts/codemirror.js","scripts/markdown.js","scripts/marked.js","scripts/cnblogs.js"],
+          "js": ["scripts/jquery.js","scripts/codemirror.js","scripts/markdown.js","scripts/marked.js","scripts/cnblogs.js"],
           "css": ["styles/3024-night.css","styles/codemirror.css"],
           "run_at": "document_end"
       }
@@ -25,7 +25,7 @@
     "clipboardRead",
     "clipboardWrite",
     "webRequest",
-    "*://*.google.com/"
+    "*://*.cnblogs.com/"
   ],
   "page_action": {
     "default_icon": {
