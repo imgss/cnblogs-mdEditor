@@ -2,10 +2,21 @@
 
 console.log('hello wolrd');
 var textarea = document.getElementById('Editor_Edit_EditorBody');
+console.log(chrome.storage)
+var getSetting = function(){
+    return new Promise((resolve, jeject) => {
+        chrome.storage.sync.get({theme: 'dark'}, function(items){
+            resolve(items)
+        });
+    });
+}
+
+getSetting().then(items => {
+console.log(items.theme)
 var editor = CodeMirror.fromTextArea(textarea, {
   mode:  'markdown',
   value: '',
-  theme: 'default 3024-night',
+  theme: 'default ' +  (items.theme === 'dark' ? '3024-night' : ''),
   allowDropFileTypes: ['image/png', 'image/jpeg'],
   lineNumbers: false
 });
@@ -155,3 +166,4 @@ textarea.addEventListener('input', function(){
   };
 })(jQuery);
 $('.CodeMirror').pasteUploadImage('www.cnblogs.com');
+})

@@ -1,7 +1,11 @@
-# cnblogs missing md editor
+# cnblogs md editor
 -----
 
 由于博客园的narkdown编辑器不是很好用，撸了一个chrome插件，改善一下用户体验
+
+## feature
+
+支持设置主题(light/dark)
 
 ## 安装
 
@@ -12,6 +16,8 @@
 - 如果一切正常，打开新增随笔时即可看到变化
 
 ## 使用
+
+
 
 
 ## issues

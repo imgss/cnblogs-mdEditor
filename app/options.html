@@ -12,12 +12,9 @@
     <option value="light">light</option>
     <option value="dark">dark</option>
    </select>
-  <script>
-  theme.onchange(function(){
-    chrome.storage.sync.set({
-      theme: this.value
-    })
-  })  
+   <div>当前主题:<p id="current"></p></div>
+  <script src="scripts/options.js">
+
   </script>
 </body>
 </html>

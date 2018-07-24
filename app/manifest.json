@@ -2,6 +2,7 @@
   "name": "__MSG_appName__",
   "version": "0.0.1",
   "manifest_version": 2,
+  "homepage_url": "https://github.com/imgss/cnblogs-mdEditor",
   "description": "__MSG_appDescription__",
   "icons": {
     "16": "images/icon-16.png",
@@ -18,12 +19,14 @@
       }
     ],
   "options_ui": {
-    "page": "options.html",
-    "open_in_tab": false
+    "chrome_style": true,
+    "page": "options.html"
   },
   "permissions": [
+    "storage",
     "clipboardRead",
     "clipboardWrite",
+    "activeTab",
     "webRequest",
     "*://*.cnblogs.com/"
   ],
