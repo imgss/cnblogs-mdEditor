@@ -16,6 +16,7 @@ console.log(items.theme)
 var editor = CodeMirror.fromTextArea(textarea, {
   mode:  'markdown',
   value: '',
+  lineWrapping:true,
   theme: 'default ' +  (items.theme === 'dark' ? '3024-night' : ''),
   allowDropFileTypes: ['image/png', 'image/jpeg'],
   lineNumbers: false
