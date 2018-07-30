@@ -1,10 +1,9 @@
 'use strict';
 
-console.log('hello wolrd');
 var textarea = document.getElementById('Editor_Edit_EditorBody');
-console.log(chrome.storage)
+//获取设置
 var getSetting = function(){
-    return new Promise((resolve, jeject) => {
+    return new Promise((resolve, reject) => {
         chrome.storage.sync.get({theme: 'dark'}, function(items){
             resolve(items)
         });
@@ -12,7 +11,7 @@ var getSetting = function(){
 }
 
 getSetting().then(items => {
-console.log(items.theme)
+//初始化editor
 var editor = CodeMirror.fromTextArea(textarea, {
   mode:  'markdown',
   value: '',
@@ -21,21 +20,23 @@ var editor = CodeMirror.fromTextArea(textarea, {
   allowDropFileTypes: ['image/png', 'image/jpeg'],
   lineNumbers: false
 });
+console.log(editor)
+
 editor.on('change', function(target, e){
   textarea.value = target.getValue()
-})
+});
+
 editor.on('drop', function(target, e){
   console.log(e.dataTransfer.files)
-})
-textarea.addEventListener('input', function(){
-  editor.doc.setValue(this.value)
 });
+
 
 // 上传图片 author: cnblogs.com
 
 (function ($) {
   var $this;
   var $host;
+  var cursorPosi;
   var $textarea = $('#Editor_Edit_EditorBody');
   var $ajaxUrl = 'https://upload.cnblogs.com/imageuploader/CorsUpload';    
 
@@ -73,20 +74,22 @@ textarea.addEventListener('input', function(){
       });
   };
 
-  $textarea.on('input', function(){
-      editor.doc.setValue(this.value)
+  $textarea.on('input', function(e){
+      editor.doc.setValue(this.value);
+      editor.setCursor(cursorPosi);
   })
 
   var pasteText = function (text) {
-      var afterSelection, beforeSelection, caretEnd, caretStart, textEnd;
-      caretStart = $textarea[0].selectionStart;
-      caretEnd = $textarea[0].selectionEnd;
+      var afterSelection, beforeSelection, caretEnd, caretStart, textEnd, posi;
+      cursorPosi = editor.getCursor();
+      caretStart = editor.indexFromPos(cursorPosi);
+      caretEnd = caretStart;
       textEnd = $textarea.val().length;
       beforeSelection = $textarea.val().substring(0, caretStart);
       afterSelection = $textarea.val().substring(caretEnd, textEnd);
       $textarea.val(beforeSelection + text + afterSelection);
       $textarea.get(0).setSelectionRange(caretStart + text.length, caretEnd + text.length);
-      return $textarea.trigger("input");
+      return $textarea.trigger("updateEditor", posi);
   };
   var isImage = function (data) {
       var i, item;
@@ -154,7 +157,7 @@ textarea.addEventListener('input', function(){
   };
   var insertToTextArea = function (filename, url) {
       return $textarea.val(function (index, val) {
-          return val.replace("{{" + filename + "(uploading...)}}", "![](" + url + ")" + "\n");
+          return val.replace("{{" + filename + "(uploading...)}}", "![" + filename + "](" + url + ")" + "\n");
       }).trigger('input');
   };
   var replaceLoadingTest = function (filename) {
@@ -167,4 +170,4 @@ textarea.addEventListener('input', function(){
   };
 })(jQuery);
 $('.CodeMirror').pasteUploadImage('www.cnblogs.com');
-})
+});
