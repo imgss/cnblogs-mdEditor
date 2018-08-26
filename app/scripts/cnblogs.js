@@ -4,7 +4,7 @@ var textarea = document.getElementById('Editor_Edit_EditorBody');
 //获取设置
 var getSetting = function(){
     return new Promise((resolve, reject) => {
-        chrome.storage.sync.get({theme: 'dark'}, function(items){
+        chrome.storage.sync.get({theme: 'dark', fontSize: 14}, function(items){
             resolve(items)
         });
     });
@@ -12,6 +12,7 @@ var getSetting = function(){
 
 getSetting().then(items => {
 //初始化editor
+console.log(items)
 var editor = CodeMirror.fromTextArea(textarea, {
   mode:  'markdown',
   value: '',
@@ -20,6 +21,8 @@ var editor = CodeMirror.fromTextArea(textarea, {
   allowDropFileTypes: ['image/png', 'image/jpeg'],
   lineNumbers: false
 });
+
+textarea.nextElementSibling.style.fontSize = items.fontSize + 'px'
 console.log(editor)
 
 editor.on('change', function(target, e){
