@@ -3,11 +3,11 @@
 var textarea = document.getElementById('Editor_Edit_EditorBody');
 //获取设置
 var getSetting = function(){
-    return new Promise((resolve, reject) => {
-        chrome.storage.sync.get({theme: 'dark', fontSize: 14}, function(items){
-            resolve(items)
-        });
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get({theme: 'dark', fontSize: 14}, function(items){
+      resolve(items);
     });
+  });
 }
 
 getSetting().then(items => {
@@ -172,5 +172,55 @@ editor.on('drop', function(target, e){
       return 'uploading-image-' + Math.floor(Math.random() * 1000000) + '.png';
   };
 })(jQuery);
+
 $('.CodeMirror').pasteUploadImage('www.cnblogs.com');
+
+// 支持生成TOC
+function generateToc(md){
+
+  var re = /^\s*(#{1,6})\s+(.+)$/mg
+  var tocList = []
+
+  while(true){
+    var match = re.exec(md)
+    if(!match) break;
+    console.log(match[0], match[1], match[2])
+    tocList.push({
+      level: match[1].length,
+      content: match[2].replace('\n', ''),
+      all: match[0]
+    })
+  }
+
+  // 找出最大是几级标题
+  var minLevel = Math.min(...tocList.map(t => t.level))
+
+  //  - [提示](#提示)
+  var tocStr = tocList
+               .map(item => '  '.repeat(item.level - minLevel) + '- ' + `[${item.content}](#${item.content})` )
+               .join('\n')
+
+  //<a name="锚点" id="锚点"></a>
+  for(let t of tocList){
+    md = md.replace(t.all, `<a name="${t.content}" id="${t.content}"><h${t.level}>${t.content}</h${t.level}></a>`)
+  }
+
+  var newMd = `#### 目录
+
+${tocStr}
+
+${md}
+`
+  return newMd
+}
+var tocBtn = document.createElement('button');
+tocBtn.textContent = '生成目录';
+tocBtn.addEventListener('click', function(e){
+  e.stopPropagation();
+  var md = editor.getValue()
+  var newMd = generateToc(md)
+  editor.setValue(newMd)
+})
+
+document.querySelector('[title="上传图片"]').after(tocBtn)
 });
