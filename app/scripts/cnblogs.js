@@ -213,8 +213,25 @@ ${md}
 `
   return newMd
 }
-var tocBtn = document.createElement('button');
+var tocBtn = document.createElement('div');
 tocBtn.textContent = '生成目录';
+tocBtn.style = `
+display: inline-block;
+color: #002C99;
+font-size: 16px;
+float: right;
+text-shadow: 1px 1px 2px;
+cursor: pointer`;
+tocBtn.animate(
+  [
+    { transform: 'translateX(10px)' },
+    { transform: 'translateX(-10px)' }
+  ], {
+    duration: 3000,
+    direction: 'alternate',
+    iterations: Infinity
+  }
+);
 tocBtn.addEventListener('click', function(e){
   e.stopPropagation();
   var md = editor.getValue()
