@@ -186,6 +186,11 @@ getSetting().then(items => {
 
   $(".CodeMirror").pasteUploadImage("www.cnblogs.com");
 
+  initToc(editor);
+  initFullScreen();
+});
+
+function initToc(editor) {
   // 支持生成TOC
   function generateToc(md) {
     let re = /^\s*(#{1,6})\s+(.+)$/gm;
@@ -258,4 +263,24 @@ cursor: pointer`;
   });
 
   document.querySelector('[title="上传图片"]').after(tocBtn);
-});
+}
+
+function initFullScreen() {
+  const full = document.createElement('span');
+  full.textContent = '全屏模式';
+  const codeEl= document.querySelector('.CodeMirror')
+  full.addEventListener('click', () => codeEl.webkitRequestFullScreen());
+
+  // 退出全屏时重置宽高
+  document.addEventListener('webkitfullscreenchange', function(e){
+    if(codeEl.style.width === '100vw'){
+      codeEl.style.width = ''
+      codeEl.style.height= ''
+    } else {
+      codeEl.style.width = '100vw'
+      codeEl.style.height= '100vh'
+    }
+
+  })
+  document.querySelector('[title="上传图片"]').after(full);
+}
