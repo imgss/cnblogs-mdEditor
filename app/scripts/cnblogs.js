@@ -11,7 +11,10 @@ let getSetting = function() {
 };
 
 getSetting().then(items => {
-  //初始化editor
+  // 加入icon样式
+  initIconStyle();
+
+  // 初始化editor
   let editor = CodeMirror.fromTextArea(textarea, {
     mode: "markdown",
     value: "",
@@ -226,7 +229,7 @@ function initToc(editor) {
         t.all,
         `<a name="${t.content}" id="${t.content}"><h${t.level}>${t.content}</h${
           t.level
-        }></a>`
+        }></a>\n`
       );
     }
 
@@ -238,23 +241,9 @@ ${md}
 `;
     return newMd;
   }
-  let tocBtn = document.createElement("div");
+  let tocBtn = document.createElement("span");
   tocBtn.textContent = "生成目录";
-  tocBtn.style = `
-display: inline-block;
-color: #002C99;
-font-size: 16px;
-float: right;
-text-shadow: 1px 1px 2px;
-cursor: pointer`;
-  tocBtn.animate(
-    [{ transform: "translateX(10px)" }, { transform: "translateX(-10px)" }],
-    {
-      duration: 3000,
-      direction: "alternate",
-      iterations: Infinity
-    }
-  );
+  tocBtn.className = 'iconfont icon-list';
   tocBtn.addEventListener("click", function(e) {
     e.stopPropagation();
     let md = editor.getValue();
@@ -268,6 +257,7 @@ cursor: pointer`;
 function initFullScreen() {
   const full = document.createElement('span');
   full.textContent = '全屏模式';
+  full.className = 'iconfont icon-full';
   const codeEl= document.querySelector('.CodeMirror')
   full.addEventListener('click', () => codeEl.webkitRequestFullScreen());
 
@@ -283,4 +273,25 @@ function initFullScreen() {
 
   })
   document.querySelector('[title="上传图片"]').after(full);
+}
+
+function initIconStyle(){
+  let link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://at.alicdn.com/t/font_871145_xnvcmxbtu8h.css';
+  document.head.appendChild(link);
+
+  let style = document.createElement('style');
+  style.textContent = `
+.iconfont {
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.iconfont:hover{
+  color: #CC0066;
+}
+  `
+  document.head.appendChild(style);
 }
