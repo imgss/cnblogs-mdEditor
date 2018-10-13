@@ -36,7 +36,6 @@ getSetting().then(items => {
   });
 
   // 上传图片 author: cnblogs.com
-
   (function($) {
     let $this;
     let $host;
@@ -189,90 +188,92 @@ getSetting().then(items => {
 
   $(".CodeMirror").pasteUploadImage("www.cnblogs.com");
 
-  initToc(editor);
-  initFullScreen();
+  // 初始化菜单
+  let menu = new Menu([
+    {
+      text: '全屏模式',
+      className: 'icon-full',
+      listener: function(){
+        let codeEl = document.querySelector('.CodeMirror');
+        codeEl.webkitRequestFullScreen();
+        // 退出全屏时重置宽高
+        document.addEventListener('webkitfullscreenchange', function(e){
+          if(codeEl.style.width === '100vw'){
+            codeEl.style.width = ''
+            codeEl.style.height= ''
+          } else {
+            codeEl.style.width = '100vw'
+            codeEl.style.height= '100vh'
+          }
+        });
+      }
+    },
+    {
+      text: '生成目录',
+      className: 'icon-list',
+      listener: function(e) {
+        e.stopPropagation();
+        let md = editor.getValue();
+        let newMd = generateToc(md);
+        editor.setValue(newMd);
+      }
+    },
+    {
+      text: '显示行数',
+      className: 'icon-list',
+      listener: function(){
+        editor.setOption('lineNumbers', !editor.getOption('lineNumbers'));
+      }
+    }
+  ])
+  menu.render();
 });
 
-function initToc(editor) {
-  // 支持生成TOC
-  function generateToc(md) {
-    let re = /^\s*(#{1,6})\s+(.+)$/gm;
-    let tocList = [];
+function generateToc(md) {
+  let re = /^\s*(#{1,6})\s+(.+)$/gm;
+  let tocList = [];
 
-    while (true) {
-      let match = re.exec(md);
-      if (!match) break;
-      console.log(match[0], match[1], match[2]);
-      tocList.push({
-        level: match[1].length,
-        content: match[2].replace("\n", ""),
-        all: match[0]
-      });
-    }
+  while (true) {
+    let match = re.exec(md);
+    if (!match) break;
+    console.log(match[0], match[1], match[2]);
+    tocList.push({
+      level: match[1].length,
+      content: match[2].replace("\n", ""),
+      all: match[0]
+    });
+  }
 
-    // 找出最大是几级标题
-    let minLevel = Math.min(...tocList.map(t => t.level));
+  // 找出最大是几级标题
+  let minLevel = Math.min(...tocList.map(t => t.level));
 
-    //  - [提示](#提示)
-    let tocStr = tocList
-      .map(
-        item =>
-          "  ".repeat(item.level - minLevel) +
-          "- " +
-          `[${item.content}](#${item.content})`
-      )
-      .join("\n");
+  //  - [提示](#提示)
+  let tocStr = tocList
+    .map(
+      item =>
+        "  ".repeat(item.level - minLevel) +
+        "- " +
+        `[${item.content}](#${item.content})`
+    )
+    .join("\n");
 
-    //<a name="锚点" id="锚点"></a>
-    for (let t of tocList) {
-      md = md.replace(
-        t.all,
-        `<a name="${t.content}" id="${t.content}"><h${t.level}>${t.content}</h${
-          t.level
-        }></a>\n`
-      );
-    }
+  //<a name="锚点" id="锚点"></a>
+  for (let t of tocList) {
+    md = md.replace(
+      t.all,
+      `<a name="${t.content}" id="${t.content}"><h${t.level}>${t.content}</h${
+        t.level
+      }></a>\n`
+    );
+  }
 
-    let newMd = `#### 目录
+  let newMd = `#### 目录
 
 ${tocStr}
 
 ${md}
 `;
-    return newMd;
-  }
-  let tocBtn = document.createElement("span");
-  tocBtn.textContent = "生成目录";
-  tocBtn.className = 'iconfont icon-list';
-  tocBtn.addEventListener("click", function(e) {
-    e.stopPropagation();
-    let md = editor.getValue();
-    let newMd = generateToc(md);
-    editor.setValue(newMd);
-  });
-
-  document.querySelector('[title="上传图片"]').after(tocBtn);
-}
-
-function initFullScreen() {
-  const full = document.createElement('span');
-  full.textContent = '全屏模式';
-  full.className = 'iconfont icon-full';
-  const codeEl= document.querySelector('.CodeMirror')
-  full.addEventListener('click', () => codeEl.webkitRequestFullScreen());
-
-  // 退出全屏时重置宽高
-  document.addEventListener('webkitfullscreenchange', function(e){
-    if(codeEl.style.width === '100vw'){
-      codeEl.style.width = ''
-      codeEl.style.height= ''
-    } else {
-      codeEl.style.width = '100vw'
-      codeEl.style.height= '100vh'
-    }
-
-  })
-  document.querySelector('[title="上传图片"]').after(full);
+  return newMd;
 }
 
 function initIconStyle(){
@@ -288,10 +289,35 @@ function initIconStyle(){
   font-size: 16px;
   margin-left: 10px;
   cursor: pointer;
+  user-select: none;
 }
 .iconfont:hover{
   color: #CC0066;
 }
   `
   document.head.appendChild(style);
+}
+
+function Menu(menuItems){
+  this.menuList = [];
+  if(Array.isArray(menuItems)){
+    for(let menu of menuItems){
+      this.addMenuItem(menu);
+    }
+  }
+}
+Menu.prototype.addMenuItem = function({text, className, listener}){
+  let el = document.createElement('span');
+  el.className = 'iconfont ' + className;
+  el.textContent = text;
+  el.addEventListener('click', listener.bind(this.el));
+  this.menuList.push(el);
+}
+Menu.prototype.render  = function(){
+  let div = document.createElement('div');
+  div.className = 'editor-menu';
+  for(let menu of this.menuList){
+    div.appendChild(menu);
+  }
+  document.querySelector('[title="上传图片"]').after(div);
 }

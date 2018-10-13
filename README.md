@@ -1,7 +1,7 @@
 # cnblogs md editor
 -----
 
-由于博客园的narkdown编辑器不是很好用，撸了一个chrome插件，改善一下用户体验
+由于博客园的markdown编辑器不是很好用，撸了一个chrome插件，改善一下用户体验
 
 ## feature
 
@@ -9,7 +9,11 @@
 - 支持设置字体大小
 - 支持生成toc目录🆕
 - 支持编辑器全屏
+- 支持切换行数显示
 
+## 截图
+
+![效果图](./raw/master/images/mdeditor.png)
 ## 安装
 
 - 在浏览器中输入`chrome://extensions`
@@ -21,7 +25,7 @@
 ## 设置
 
 目前支持设置主题（light 和 dark）
-
+更多详情见: https://www.cnblogs.com/imgss/p/9368869.html
 
 ## issues
 
