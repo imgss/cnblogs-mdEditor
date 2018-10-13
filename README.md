@@ -13,7 +13,7 @@
 
 ## 截图
 
-![效果图](./raw/master/images/mdeditor.png)
+![效果图](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/mdeditor.png)
 ## 安装
 
 - 在浏览器中输入`chrome://extensions`
