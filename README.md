@@ -29,7 +29,7 @@
 
 ## issues
 
-
+发现了bug，想到好的功能可以在[issues](https://github.com/imgss/cnblogs-mdEditor/issues)中提出
 
 ## lisence
 
