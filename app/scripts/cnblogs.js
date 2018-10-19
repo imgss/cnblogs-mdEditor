@@ -224,6 +224,22 @@ getSetting().then(items => {
       listener: function(){
         editor.setOption('lineNumbers', !editor.getOption('lineNumbers'));
       }
+    },
+    {
+      text: '😂emoji',
+      className: 'emoji',
+      listener: function(){
+
+      }
+    },
+    {
+      text: '🈳️盘古之白',
+      className: 'pangu',
+      listener: function(){
+        let md = editor.getValue();
+        let newMd = pangu.spacing(md);
+        editor.setValue(newMd);
+      }
     }
   ])
   menu.render();

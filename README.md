@@ -4,12 +4,13 @@
 由于博客园的markdown编辑器不是很好用，撸了一个chrome插件，改善一下用户体验
 
 ## feature
-
+:one:
 - 支持设置主题(light/dark)
 - 支持设置字体大小
-- 支持生成toc目录🆕
+- 支持生成toc目录🆕 
 - 支持编辑器全屏
 - 支持切换行数显示
+- 支持[盘古之白](https://github.com/vinta/pangu.js)
 
 ## 截图
 
