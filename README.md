@@ -19,6 +19,8 @@
 ## 截图
 
 ![效果图](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/mdeditor.png)
+![加目录](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/shatter1.gif)
+![盘古之白](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/shatter2.gif)
 
 ## 安装
 
