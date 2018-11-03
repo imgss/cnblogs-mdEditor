@@ -15,6 +15,11 @@ getSetting().then(items => {
   initIconStyle();
 
   // 初始化editor
+  let tips = document.getElementById('edit_body_tip').textContent;
+  // 不改变除markdown外的其他编辑器
+  if (!/Markdown/.test(tips)) {
+    return
+  }
   let editor = CodeMirror.fromTextArea(textarea, {
     mode: "markdown",
     value: "",
