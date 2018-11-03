@@ -25,7 +25,7 @@
 ![盘古之白](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/shatter2.gif)
 
 ## 安装
-
+- 在选项中将默认编辑器设为Markdown编辑器 https://i.cnblogs.com/Preferences.aspx#Editor
 - 在浏览器中输入`chrome://extensions`
 - 打开开发者模式
 - clone仓库
