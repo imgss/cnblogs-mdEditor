@@ -28,9 +28,9 @@ getSetting().then(items => {
     allowDropFileTypes: ["image/png", "image/jpeg"],
     lineNumbers: false
   });
+  initEmoji(editor);
 
   textarea.nextElementSibling.style.fontSize = items.fontSize + "px";
-  console.log(editor);
 
   editor.on("change", function(target, e) {
     textarea.value = target.getValue();
@@ -233,8 +233,12 @@ getSetting().then(items => {
     {
       text: '😂emoji',
       className: 'emoji',
-      listener: function(){
-
+      listener: function(e){
+        e.stopPropagation();
+        let emojiBoard = document.getElementById('emojiBoard');
+        emojiBoard.style=`top:${e.pageY}px;left:${e.pageX}px`;
+        let isHidden = emojiBoard.hidden;
+        emojiBoard.hidden = !isHidden;
       }
     },
     {
@@ -295,6 +299,48 @@ ${tocStr}
 ${md}
 `;
   return newMd;
+}
+
+function initEmoji (cm) {
+  let emojis = Object.values(emoji_list).map(e => e.char)
+  console.log(emojis)
+  let dashBoard = document.createElement('div');
+  dashBoard.id = 'emojiBoard';
+  dashBoard.hidden = true;
+  dashBoard.innerHTML = emojis.map(e => `<span>${e}</span>`).join('');
+  // 插入emoji
+  dashBoard.onclick = function(e){
+    e.stopPropagation();
+    if (e.target.nodeName === 'SPAN') {
+      let cursor = cm.getCursor()
+      cm.replaceRange(e.target.textContent, cursor, cursor);
+    }
+  }
+  document.body.appendChild(dashBoard);
+  // 插入style
+  let style = document.createElement('style');
+  style.textContent = `
+  #emojiBoard{
+    font-size: 20px;
+    width: 200px;
+    overflow-x: scroll;
+    padding: 10px 40px;
+    background: #fff;
+    z-index:99999;
+    border-radius: 12px;
+    white-space: nowrap;
+    position: absolute;
+  }
+  #emojiBoard span{
+    padding: 10px;
+    cursor: pointer;
+  }
+  `
+  document.head.appendChild(style);
+
+  document.body.onclick = function(){
+    dashBoard.hidden = true;
+  }
 }
 
 function initIconStyle(){

@@ -1,5 +1,5 @@
 {
-  "name": "__MSG_appName__",
+  "name": "cnblogs",
   "version": "0.0.2",
   "manifest_version": 2,
   "homepage_url": "https://github.com/imgss/cnblogs-mdEditor",
@@ -17,6 +17,7 @@
             "scripts/jquery.js",
             "scripts/codemirror.js",
             "scripts/pangu.js",
+            "scripts/emoji.js",
             "scripts/markdown.js",
             "scripts/cnblogs.js"
           ],

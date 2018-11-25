@@ -1,4 +1,4 @@
-{
+let emoji_list = {
   "grinning": {
     "keywords": ["face", "smile", "happy", "joy", ":D", "grin"],
     "char": "😀",
