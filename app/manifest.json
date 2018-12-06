@@ -18,7 +18,8 @@
             "scripts/codemirror.js",
             "scripts/pangu.js",
             "scripts/emoji.js",
-            "scripts/markdown.js",
+            "scripts/mode/markdown.js",
+            "scripts/mode/css.js",
             "scripts/cnblogs.js"
           ],
           "css": ["styles/3024-night.css","styles/codemirror.css"],

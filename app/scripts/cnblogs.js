@@ -1,6 +1,7 @@
 "use strict";
 
 let textarea = document.getElementById("Editor_Edit_EditorBody");
+let cssTextarea = document.getElementById('Edit_txbSecondaryCss');
 //获取设置
 let getSetting = function() {
   return new Promise((resolve, reject) => {
@@ -11,6 +12,16 @@ let getSetting = function() {
 };
 
 getSetting().then(items => {
+  if (cssTextarea) {
+    CodeMirror.fromTextArea(cssTextarea, {
+      mode: "css",
+      value: "",
+      lineWrapping: true,
+      theme: "default ",
+      lineNumbers: true
+    });
+    return;
+  }
   // 加入icon样式
   initIconStyle();
 
