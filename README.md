@@ -21,9 +21,20 @@
 
 ## 截图
 
+高亮markdown代码
+
 ![效果图](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/mdeditor.png)
+
+可生成博文目录
+
 ![加目录](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/shatter1.gif)
+
+可添加盘古之白
+
 ![盘古之白](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/shatter2.gif)
+
+可插入emoji表情
+
 ![emoji](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/emoji.png)
 
 ## 安装
