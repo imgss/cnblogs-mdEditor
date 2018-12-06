@@ -12,6 +12,7 @@
 - 支持切换行数显示
 - 支持emoji
 - 支持[盘古之白](https://github.com/vinta/pangu.js)
+- 支持高亮设置页面中的自定义css
 
 **注意**:使用盘古之白时，emoji缩写的第一个冒号后面会被加空格，造成页面渲染不出表情，可通过在第一个冒号前面加空格解决
 
@@ -21,21 +22,24 @@
 
 ## 截图
 
-高亮markdown代码
+- 高亮markdown代码
 
 ![效果图](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/mdeditor.png)
 
-可生成博文目录
+- 可生成博文目录
 
 ![加目录](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/shatter1.gif)
 
-可添加盘古之白
+- 可添加盘古之白
 
 ![盘古之白](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/shatter2.gif)
 
-可插入emoji表情
+- 可插入emoji表情
 
 ![emoji](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/emoji.png)
+
+- 高亮自定义css
+![高亮自定义css](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/css.png)
 
 ## 安装
 - 在选项中将默认编辑器设为Markdown编辑器 https://i.cnblogs.com/Preferences.aspx#Editor
