@@ -15,7 +15,6 @@ getSetting().then(items => {
   if (cssTextarea) {
     CodeMirror.fromTextArea(cssTextarea, {
       mode: "css",
-      value: "",
       lineWrapping: true,
       theme: "default ",
       lineNumbers: true
@@ -26,10 +25,13 @@ getSetting().then(items => {
   initIconStyle();
 
   // 初始化editor
-  let tips = document.getElementById('edit_body_tip').textContent;
-  // 不改变除markdown外的其他编辑器
-  if (!/Markdown/.test(tips)) {
-    return
+  let tipEl = document.getElementById('edit_body_tip')
+  if(tipEl){
+    let tips = document.getElementById('edit_body_tip').textContent;
+    // 不改变除markdown外的其他编辑器
+    if (!/Markdown/.test(tips)) {
+      return
+    }
   }
   let editor = CodeMirror.fromTextArea(textarea, {
     mode: "markdown",

@@ -1,4 +1,8 @@
 # cnblogs md editor
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/app/images/icon-128.png" style="width:128px;height:128px;">
+</div>
 -----
 
 由于博客园的markdown编辑器不是很好用，撸了一个chrome插件，改善一下用户体验
