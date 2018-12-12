@@ -20,6 +20,9 @@
             "scripts/emoji.js",
             "scripts/mode/markdown.js",
             "scripts/mode/css.js",
+            "scripts/mode/javascript.js",
+            "scripts/mode/xml.js",
+            "scripts/mode/html.js",
             "scripts/cnblogs.js"
           ],
           "css": ["styles/3024-night.css","styles/codemirror.css"],

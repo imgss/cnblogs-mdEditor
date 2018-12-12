@@ -2,6 +2,7 @@
 
 let textarea = document.getElementById("Editor_Edit_EditorBody");
 let cssTextarea = document.getElementById('Edit_txbSecondaryCss');
+let htmlTextareas = document.querySelectorAll('#Edit_EditorBody,#Edit_txbPageBeginHtml,#Edit_txbPageEndHtml')
 //获取设置
 let getSetting = function() {
   return new Promise((resolve, reject) => {
@@ -12,6 +13,7 @@ let getSetting = function() {
 };
 
 getSetting().then(items => {
+  // 设置页面编辑器
   if (cssTextarea) {
     CodeMirror.fromTextArea(cssTextarea, {
       mode: "css",
@@ -19,6 +21,22 @@ getSetting().then(items => {
       theme: "default ",
       lineNumbers: true
     });
+    Array.from(htmlTextareas).forEach(function(textarea){
+      CodeMirror.fromTextArea(textarea, {
+        mode: {
+          name: "htmlmixed",
+          scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,
+                         mode: null}]
+        },
+        lineWrapping: true,
+        theme: "default ",
+        lineNumbers: false
+      });
+    });
+    for (let code of document.querySelectorAll('.CodeMirror')) {
+      code.style = 'height:300px;width:850px'
+    }
+
     return;
   }
   // 加入icon样式
