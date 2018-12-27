@@ -28,14 +28,12 @@ getSetting().then(items => {
           scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,
                          mode: null}]
         },
-        lineWrapping: true,
+        lineWrapping: false,
         theme: "default ",
         lineNumbers: false
       });
+      textarea.nextElementSibling.style = 'height:300px;width:850px;padding:5px 10px;';
     });
-    for (let code of document.querySelectorAll('.CodeMirror')) {
-      code.style = 'height:300px;width:850px'
-    }
 
     return;
   }
@@ -59,13 +57,22 @@ getSetting().then(items => {
     allowDropFileTypes: ["image/png", "image/jpeg"],
     lineNumbers: false
   });
+
   initEmoji(editor);
 
   textarea.nextElementSibling.style.fontSize = items.fontSize + "px";
 
   editor.on("change", function(target, e) {
-    textarea.value = target.getValue();
+    let value = target.getValue();
+    textarea.value = value
+    updateWordsCounter(value)
   });
+
+  function updateWordsCounter(str){
+    let len = str.replace(/\s|\n|\r/mg, '').length
+    document.querySelector('.word-count').textContent = `字数统计：${len}字`
+  }
+
 
   editor.on("drop", function(target, e) {
     console.log(e.dataTransfer.files);
@@ -280,9 +287,14 @@ getSetting().then(items => {
         let newMd = pangu.spacing(md);
         editor.setValue(newMd);
       }
+    },
+    {
+      text: '字数统计',
+      className: 'word-count'
     }
   ])
   menu.render();
+  updateWordsCounter(textarea.value);
 });
 
 function generateToc(md) {
@@ -408,7 +420,9 @@ Menu.prototype.addMenuItem = function({text, className, listener}){
   let el = document.createElement('span');
   el.className = 'iconfont ' + className;
   el.textContent = text;
-  el.addEventListener('click', listener.bind(this.el));
+  if(listener){
+    el.addEventListener('click', listener.bind(this.el));
+  }
   this.menuList.push(el);
 }
 Menu.prototype.render  = function(){
