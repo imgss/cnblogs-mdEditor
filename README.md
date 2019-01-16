@@ -48,6 +48,10 @@
 ![高亮自定义css](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/css.png)
 
 ## 安装
+**可以通过应用商店安装 [传送门>>](https://chrome.google.com/webstore/detail/cnblogs/dmohalpippgmopnbpnknmapokjdkifmc)**
+
+或者直接clone代码到本地安装：
+
 - 在选项中将默认编辑器设为Markdown编辑器 https://i.cnblogs.com/Preferences.aspx#Editor
 - 在浏览器中输入`chrome://extensions`
 - 打开开发者模式
