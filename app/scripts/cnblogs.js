@@ -2,7 +2,10 @@
 
 let textarea = document.getElementById("Editor_Edit_EditorBody");
 let cssTextarea = document.getElementById('Edit_txbSecondaryCss');
-let htmlTextareas = document.querySelectorAll('#Edit_EditorBody,#Edit_txbPageBeginHtml,#Edit_txbPageEndHtml')
+let htmlTextareas = document.querySelectorAll('#Edit_EditorBody,#Edit_txbPageBeginHtml,#Edit_txbPageEndHtml');
+
+document.querySelector('#edit_body>img').style.display = 'none'
+
 //获取设置
 let getSetting = function() {
   return new Promise((resolve, reject) => {
@@ -13,7 +16,7 @@ let getSetting = function() {
 };
 
 getSetting().then(items => {
-  // 设置页面编辑器
+  // 设置页面 https://i.cnblogs.com/Configure.aspx 初始化编辑器
   if (cssTextarea) {
     CodeMirror.fromTextArea(cssTextarea, {
       mode: "css",
@@ -49,6 +52,7 @@ getSetting().then(items => {
       return
     }
   }
+  //初始化博客文本编辑器
   let editor = CodeMirror.fromTextArea(textarea, {
     mode: "markdown",
     value: "",
@@ -57,15 +61,14 @@ getSetting().then(items => {
     allowDropFileTypes: ["image/png", "image/jpeg"],
     lineNumbers: false
   });
-
   initEmoji(editor);
 
   textarea.nextElementSibling.style.fontSize = items.fontSize + "px";
 
   editor.on("change", function(target, e) {
     let value = target.getValue();
-    textarea.value = value
-    updateWordsCounter(value)
+    textarea.value = value;
+    updateWordsCounter(value);
   });
 
   function updateWordsCounter(str){
@@ -252,8 +255,13 @@ getSetting().then(items => {
       }
     },
     {
-      text: '生成目录',
-      className: 'icon-list',
+      text: '🖼上传图片',
+      listener: function(){
+        alert('将图片拖到编辑器中即可')
+      }
+    },
+    {
+      text: '📜生成目录',
       listener: function(e) {
         e.stopPropagation();
         let md = editor.getValue();
@@ -262,8 +270,7 @@ getSetting().then(items => {
       }
     },
     {
-      text: '显示行数',
-      className: 'icon-list',
+      text: '📐显示行数',
       listener: function(){
         editor.setOption('lineNumbers', !editor.getOption('lineNumbers'));
       }
@@ -289,7 +296,7 @@ getSetting().then(items => {
       }
     },
     {
-      text: '字数统计',
+      text: '🧮字数统计',
       className: 'word-count'
     }
   ])
@@ -346,7 +353,6 @@ ${md}
 
 function initEmoji (cm) {
   let emojis = Object.values(emoji_list).map(e => e.char)
-  console.log(emojis)
   let dashBoard = document.createElement('div');
   dashBoard.id = 'emojiBoard';
   dashBoard.hidden = true;
