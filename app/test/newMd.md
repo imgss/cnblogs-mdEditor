@@ -12,17 +12,11 @@
 
 初始化一个mpvue项目是基于mpvue-quickstart项目模板的，使用的是下面的命令:
 
-```bash
-vue init mpvue/mpvue-quickstart my-project
-```
+
 
 但是这样是基于quickstart的master分支创建的项目，所以我们可以把这个模板clone下来，然后切换到develop分支上，再基于本地的模板创建一个新的mpvue项目，以下是一通（猛如虎的）操作:
 
-```bash
-git clone https://github.com/mpvue/mpvue-quickstart.git
-cd mpvue-quickstart
-git branch develop #切换到开发分支
-```
+
 
 这时，在项目的template/src目录下会有一个app.json文件，表明你现在在开发分支上。
 <a name="注意⚠️" id="注意⚠️"><h4>注意⚠️</h4></a>
@@ -35,53 +29,20 @@ datdattt
 
 首先用本地分mpvue模板初始化一个项目,参考vue-cli使用本地模板的[文档](https://github.com/vuejs/vue-cli/tree/v2#local-templates):
 
-```bash
-vue init ../mpvue-quickstart demo # 替换模板路径为相对于你项目的相对路径
-```
+
 可以看到我们将模板替换成了本地的模板，后面的操作就熟悉了。
 <a name="初始化之后" id="初始化之后"><h3>初始化之后</h3></a>
 
 初始化好项目之后，我们来写一个分包加载的demo。进入项目目录，我们可以看到一个json文件，就是上面提到的app.json。然后参考小程序文档，加入subpackages的相关配置：
 
-```js
 
-{
-  "pages": [
-    "pages/index/main",
-    "pages/logs/main"  ],
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle": "black"
-  },
-  "subPackages": [
-    {
-      "root": "pages/pA",
-      "pages": [
-        "a/main"
-      ]
-    }
-  ]
-}
-
-```
 然后在pages/下，新建pA/a目录，在目录下再新建两个文件，`main.js`和`index.vue`，最终目录结构如下图所示:
 
 <img width="300px" src="https://images2018.cnblogs.com/blog/1016471/201808/1016471-20180817223857688-655855736.png"/>
 
 后面的操作就跟之前的mpvue开发过程一致了，这里不再赘述。直接贴上相关代码:
 
-```html
 
-index/index.vue 主包
-
-...
-
-<a href="../pA/a/main">分包</a> 跳转到分包
-...
-
-```
 当点击上面的链接时，手机上会首先出现正在加载模块，然后跳转到build出来的`pages/pA/a/mian`页面,表示分包生效。
 <a name="现有项目的分包改造" id="现有项目的分包改造"><h3>现有项目的分包改造</h3></a>
 
@@ -93,13 +54,7 @@ index/index.vue 主包
     
 - 升级依赖
 
-    ```bash
-
-    cnpm i mpvue-loader@1.1.0-rc.1 --save
-
-    cnpm i webpack-mpvue-asset-plugin@0.1.0-rc.1 --save
-
-    ```
+    
 
 - 修改webpack配置
 
@@ -109,11 +64,7 @@ index/index.vue 主包
 
 	打开 config/index.js,将`assetsSubDirectory`字段的值由static改成''
     
-    ```js
-    ...
-    assetsSubDirectory: ''// 去掉static
-    ...
-    ```
+    
 
 - 将app.json的配置从main.js中移出来，命名为main.json
 

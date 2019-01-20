@@ -5,6 +5,7 @@
 初始化一个mpvue项目是基于mpvue-quickstart项目模板的，使用的是下面的命令:
 
 ```bash
+# 123
 vue init mpvue/mpvue-quickstart my-project
 ```
 

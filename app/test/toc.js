@@ -1,4 +1,6 @@
 module.exports = function generateToc(md){
+  md = md.replace(/```[\s\S]*?```/g, '');
+  console.log(/#\s123/.test(md));
   var re = /^\s*(#{1,6})\s+(.+)$/mg
   var tocList = []
 

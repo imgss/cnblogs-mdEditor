@@ -305,6 +305,9 @@ getSetting().then(items => {
 });
 
 function generateToc(md) {
+  // 过滤掉代码块中的 # 号
+  md = md.replace(/```[\s\S]*?```/g, '');
+
   let re = /^\s*(#{1,6})\s+(.+)$/gm;
   let tocList = [];
 
