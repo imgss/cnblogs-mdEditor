@@ -4,7 +4,11 @@ let textarea = document.getElementById("Editor_Edit_EditorBody");
 let cssTextarea = document.getElementById('Edit_txbSecondaryCss');
 let htmlTextareas = document.querySelectorAll('#Edit_EditorBody,#Edit_txbPageBeginHtml,#Edit_txbPageEndHtml');
 
-document.querySelector('#edit_body>img').style.display = 'none'
+let uploaderImg = document.querySelector('#edit_body>img')
+if (uploaderImg) {
+  uploaderImg.style.display = 'none'
+}
+
 
 //获取设置
 let getSetting = function() {
@@ -143,6 +147,7 @@ getSetting().then(items => {
         .setSelectionRange(caretStart + text.length, caretEnd + text.length);
       return $textarea.trigger("updateEditor", posi);
     };
+
     let isImage = function(data) {
       let i, item;
       i = 0;
@@ -155,6 +160,7 @@ getSetting().then(items => {
       }
       return false;
     };
+
     let isImageForDrop = function(data) {
       let i, item;
       i = 0;
@@ -167,6 +173,7 @@ getSetting().then(items => {
       }
       return false;
     };
+
     let getFilename = function(e) {
       let value;
       if (window.clipboardData && window.clipboardData.getData) {
@@ -177,6 +184,7 @@ getSetting().then(items => {
       value = value.split("\r");
       return value[0];
     };
+
     let uploadFile = function(file, filename, uploadType) {
       let formData = new FormData();
       formData.append("imageFile", file);
@@ -207,6 +215,7 @@ getSetting().then(items => {
         }
       });
     };
+
     let insertToTextArea = function(filename, url) {
       return $textarea
         .val(function(index, val) {
@@ -217,6 +226,7 @@ getSetting().then(items => {
         })
         .trigger("input");
     };
+
     let replaceLoadingTest = function(filename) {
       return $textarea
         .val(function(index, val) {
@@ -227,6 +237,7 @@ getSetting().then(items => {
         })
         .trigger("input");
     };
+
     let generateFilename = function() {
       return "uploading-image-" + Math.floor(Math.random() * 1000000) + ".png";
     };
@@ -287,6 +298,20 @@ getSetting().then(items => {
       }
     },
     {
+      template: '<span className="iconfont">🌈字体颜色<input type="color" style="width:40px" id="colorInput"></span>',
+      mounted: function(){
+        let colorInput = $('#colorInput');
+        console.log(colorInput.length);
+        colorInput.change(function(e){
+          console.log(e.target.value)
+          let selection = editor.getSelection()
+          if(selection){
+            editor.replaceSelection(`<span style="color:${e.target.value}">${selection}</span>`)
+          }
+        })
+      }
+    },
+    {
       text: '🈳️盘古之白',
       className: 'pangu',
       listener: function(){
@@ -296,7 +321,7 @@ getSetting().then(items => {
       }
     },
     {
-      text: '🧮字数统计',
+      text: '🧮字数',
       className: 'word-count'
     }
   ])
@@ -419,20 +444,26 @@ function initIconStyle(){
 
 function Menu(menuItems){
   this.menuList = [];
+  this.menuItems = menuItems;
   if(Array.isArray(menuItems)){
     for(let menu of menuItems){
       this.addMenuItem(menu);
     }
   }
 }
-Menu.prototype.addMenuItem = function({text, className, listener}){
-  let el = document.createElement('span');
-  el.className = 'iconfont ' + className;
-  el.textContent = text;
-  if(listener){
-    el.addEventListener('click', listener.bind(this.el));
+Menu.prototype.addMenuItem = function({text, className, listener, template}){
+  if(template){
+    let menuEl = $(template).click(listener)[0]
+    this.menuList.push(menuEl)
+  } else {
+    let el = document.createElement('span');
+    el.className = 'iconfont ' + className;
+    el.textContent = text;
+    if(listener){
+      el.addEventListener('click', listener.bind(this.el));
+    }
+    this.menuList.push(el);
   }
-  this.menuList.push(el);
 }
 Menu.prototype.render  = function(){
   let div = document.createElement('div');
@@ -441,4 +472,9 @@ Menu.prototype.render  = function(){
     div.appendChild(menu);
   }
   document.querySelector('[title="上传图片"]').after(div);
+  for(let menuItem of this.menuItems){
+    if(menuItem.mounted){
+      menuItem.mounted();
+    }
+  }
 }
