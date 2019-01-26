@@ -57,6 +57,7 @@ getSetting().then(items => {
     }
   }
   //初始化博客文本编辑器
+  if(!textarea) return;
   let editor = CodeMirror.fromTextArea(textarea, {
     mode: "markdown",
     value: "",
