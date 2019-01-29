@@ -299,7 +299,7 @@ getSetting().then(items => {
       }
     },
     {
-      template: '<span className="iconfont">🌈字体颜色<input type="color" style="width:40px" id="colorInput"></span>',
+      template: '<span class="iconfont">🌈字体颜色<input type="color" style="width:40px" id="colorInput"></span>',
       mounted: function(){
         let colorInput = $('#colorInput');
         console.log(colorInput.length);
