@@ -7,12 +7,13 @@
   cursor: pointer;
   user-select: none;
 }
+
 .iconfont:hover{
   color: #CC0066;
 }
 
 #cnblog-md-editor-imgs{
-  display: none;
+  display: flex;
   flex-wrap: wrap;
   width: 320px;
   height: 200px;
@@ -23,12 +24,15 @@
   background: #fff;
   box-shadow: 1px 1px 4px #aeaeae;
 }
+
+#cnblog-md-editor-imgs.hidden{
+  display: none;
+}
+
 .iconfont.doutu{
   position: relative;
 }
-#search:focus ~ #cnblog-md-editor-imgs{
-  display: flex;
-}
+
 span#cnblog-md-editor-imgs img {
   width: 70px;
   height: 70px;

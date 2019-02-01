@@ -299,21 +299,60 @@ getSetting().then(items => {
       }
     },
     {
-      template: '<span class="iconfont doutu">🌚斗图<input type="search" style="width:80px" id="search"><span id="cnblog-md-editor-imgs"></span></span>',
+      template: '<span class="iconfont doutu">🌚斗图<input type="search" placeholder="搜索表情包" style="width:80px" id="search"><span id="cnblog-md-editor-imgs" class="hidden"></span></span>',
       mounted: function(){
         let colorInput = $('#search');
-        colorInput.on('input', function(e){
-          $.get(`https://www.doutula.com/api/search?keyword=${e.target.value}&mime=0`).then(function(data){
-            if(data.status === 1){
+        colorInput.on('input', throttle(function(e){
+          if( !e.target.value) {
+            return;
+          }
+          $.get(`https://www.doutula.com/api/search?keyword=${e.target.value}&mime=0`)
+          .then(function(data){
+            if (data.status === 1) {
               let html = data.data.list.map(img => {
                 return `<img src=${img.image_url}>`
-              })
-              $('#imgs').html(html)
+              });
+              $('#cnblog-md-editor-imgs').html(html);
             }
-          })
+          });
+        }, 200));
+
+        function throttle(fn, delay = 500, context) {
+          var isLock = false
+          return function () {
+            if (isLock) return;
+            isLock = true;
+            let arg = arguments
+            setTimeout(function(){
+              fn.apply(context, arg);
+              isLock = false;
+            }, delay);
+          }
+        }
+
+        $('#cnblog-md-editor-imgs').on(
+          'click', 
+          function(e) {
+            e.stopPropagation();
+            if(e.target.nodeName !== 'IMG') {
+              return;
+            }
+            let cursor = editor.getCursor();
+            let imgHtml = `<img width="30%" src="${e.target.src}" >`; // 默认插入图片是30%
+            editor.replaceRange(imgHtml, cursor, cursor);
+            $('#cnblog-md-editor-imgs').addClass('hidden');
+          }
+        );
+
+        $(document.body).click(function(){
+          $('#cnblog-md-editor-imgs').addClass('hidden');
         });
-        $('#cnblog-md-editor-imgs').on('click', 'img', function(){
-          editor.getCursor()
+        $('.editor-menu').click(function(e){
+          e.stopPropagation();
+        });
+
+        $('#search').on('focus', function(){
+          $('#cnblog-md-editor-imgs').removeClass('hidden');
         })
       }
     },

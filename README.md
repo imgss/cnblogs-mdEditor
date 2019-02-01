@@ -25,7 +25,7 @@
 - [x] 支持emoji
 - [x] 支持字数统计
 - [x] 支持给选中字体加颜色
-- 支持表情包搜索(https://www.doutula.com/apidoc)
+- [x] 支持表情包搜索(https://www.doutula.com/apidoc)
 
 ## 截图
 
@@ -47,6 +47,12 @@
 
 - 高亮自定义css
 ![高亮自定义css](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/css.png)
+
+- 搜索插入表情包
+
+感谢[斗图啦](https://www.doutula.com/)提供的API
+(https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/doutu.gif)
+
 
 ## 安装
 **可以通过应用商店安装 [传送门>>](https://chrome.google.com/webstore/detail/cnblogs/dmohalpippgmopnbpnknmapokjdkifmc)**
