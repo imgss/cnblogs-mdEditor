@@ -3,7 +3,7 @@
 let textarea = document.getElementById("Editor_Edit_EditorBody");
 let cssTextarea = document.getElementById('Edit_txbSecondaryCss');
 let htmlTextareas = document.querySelectorAll('#Edit_EditorBody,#Edit_txbPageBeginHtml,#Edit_txbPageEndHtml');
-
+// 不显示默认的上传图片按钮
 let uploaderImg = document.querySelector('#edit_body>img')
 if (uploaderImg) {
   uploaderImg.style.display = 'none'
@@ -56,7 +56,7 @@ getSetting().then(items => {
       return
     }
   }
-  //初始化博客文本编辑器
+  // 初始化博客文本编辑器
   if(!textarea) return;
   let editor = CodeMirror.fromTextArea(textarea, {
     mode: "markdown",
@@ -299,9 +299,28 @@ getSetting().then(items => {
       }
     },
     {
+      template: '<span class="iconfont doutu">🌚斗图<input type="search" style="width:80px" id="search"><span id="cnblog-md-editor-imgs"></span></span>',
+      mounted: function(){
+        let colorInput = $('#search');
+        colorInput.on('input', function(e){
+          $.get(`https://www.doutula.com/api/search?keyword=${e.target.value}&mime=0`).then(function(data){
+            if(data.status === 1){
+              let html = data.data.list.map(img => {
+                return `<img src=${img.image_url}>`
+              })
+              $('#imgs').html(html)
+            }
+          })
+        });
+        $('#cnblog-md-editor-imgs').on('click', 'img', function(){
+          editor.getCursor()
+        })
+      }
+    },
+    {
       template: '<span class="iconfont">🌈字体颜色<input type="color" style="width:40px" id="colorInput"></span>',
       mounted: function(){
-        let colorInput = $('#colorInput');
+        let colorInput = $('#search');
         console.log(colorInput.length);
         colorInput.change(function(e){
           console.log(e.target.value)
@@ -426,21 +445,6 @@ function initIconStyle(){
   link.rel = 'stylesheet';
   link.href = 'https://at.alicdn.com/t/font_871145_xnvcmxbtu8h.css';
   document.head.appendChild(link);
-
-  let style = document.createElement('style');
-  style.textContent = `
-.iconfont {
-  cursor: pointer;
-  font-size: 16px;
-  margin-left: 10px;
-  cursor: pointer;
-  user-select: none;
-}
-.iconfont:hover{
-  color: #CC0066;
-}
-  `
-  document.head.appendChild(style);
 }
 
 function Menu(menuItems){
@@ -473,8 +477,8 @@ Menu.prototype.render  = function(){
     div.appendChild(menu);
   }
   document.querySelector('[title="上传图片"]').after(div);
-  for(let menuItem of this.menuItems){
-    if(menuItem.mounted){
+  for (let menuItem of this.menuItems) {
+    if (menuItem.mounted) {
       menuItem.mounted();
     }
   }

@@ -27,7 +27,7 @@
             "scripts/mode/html.js",
             "scripts/cnblogs.js"
           ],
-          "css": ["styles/3024-night.css","styles/codemirror.css"],
+          "css": ["styles/3024-night.css","styles/codemirror.css", "styles/style.css"],
           "run_at": "document_end"
       }
     ],
