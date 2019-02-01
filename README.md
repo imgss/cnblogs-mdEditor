@@ -48,10 +48,10 @@
 - 高亮自定义css
 ![高亮自定义css](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/css.png)
 
-- 搜索插入表情包
+- 搜索/插入网络表情包
 
 感谢[斗图啦](https://www.doutula.com/)提供的API
-(https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/doutu.gif)
+![搜索插入表情包](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/doutu.gif)
 
 
 ## 安装
