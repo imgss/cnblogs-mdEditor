@@ -359,13 +359,11 @@ getSetting().then(items => {
     {
       template: '<span class="iconfont">🌈字体颜色<input type="color" style="width:40px" id="colorInput"></span>',
       mounted: function(){
-        let colorInput = $('#search');
-        console.log(colorInput.length);
-        colorInput.change(function(e){
-          console.log(e.target.value)
-          let selection = editor.getSelection()
-          if(selection){
-            editor.replaceSelection(`<span style="color:${e.target.value}">${selection}</span>`)
+        let colorInput = $('#colorInput');
+        colorInput.change(function(e) {
+          let selection = editor.getSelection();
+          if (selection) {
+            editor.replaceSelection(`<span style="color:${e.target.value}">${selection}</span>`);
           }
         })
       }
@@ -453,26 +451,6 @@ function initEmoji (cm) {
     }
   }
   document.body.appendChild(dashBoard);
-  // 插入style
-  let style = document.createElement('style');
-  style.textContent = `
-  #emojiBoard{
-    font-size: 20px;
-    width: 200px;
-    overflow-x: scroll;
-    padding: 10px 40px;
-    background: #fff;
-    z-index:99999;
-    border-radius: 12px;
-    white-space: nowrap;
-    position: absolute;
-  }
-  #emojiBoard span{
-    padding: 10px;
-    cursor: pointer;
-  }
-  `
-  document.head.appendChild(style);
 
   document.body.onclick = function(){
     dashBoard.hidden = true;

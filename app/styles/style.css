@@ -38,3 +38,19 @@ span#cnblog-md-editor-imgs img {
   height: 70px;
   padding: 5px;
 }
+
+#emojiBoard{
+  font-size: 20px;
+  width: 200px;
+  overflow-x: scroll;
+  padding: 10px 40px;
+  background: #fff;
+  z-index:99999;
+  border-radius: 12px;
+  white-space: nowrap;
+  position: absolute;
+}
+#emojiBoard span{
+  padding: 10px;
+  cursor: pointer;
+}
