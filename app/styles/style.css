@@ -54,3 +54,15 @@ span#cnblog-md-editor-imgs img {
   padding: 10px;
   cursor: pointer;
 }
+
+#search{
+  width: 80px;
+  transition: width 0.3s ease;
+  border: none;
+  padding: 0 5px;
+}
+#search:focus{
+  width: 100px;
+  border: none;
+  outline: none;
+}

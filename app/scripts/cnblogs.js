@@ -299,7 +299,7 @@ getSetting().then(items => {
       }
     },
     {
-      template: '<span class="iconfont doutu">🌚斗图<input type="search" placeholder="搜索表情包" style="width:80px" id="search"><span id="cnblog-md-editor-imgs" class="hidden"></span></span>',
+      template: '<span class="iconfont doutu">🌚斗图<input type="search" placeholder="搜索表情包" id="search"><span id="cnblog-md-editor-imgs" class="hidden"></span></span>',
       mounted: function(){
         let colorInput = $('#search');
         colorInput.on('input', throttle(function(e){
@@ -396,7 +396,6 @@ function generateToc(md) {
   while (true) {
     let match = re.exec(md);
     if (!match) break;
-    console.log(match[0], match[1], match[2]);
     tocList.push({
       level: match[1].length,
       content: match[2].replace("\n", ""),
