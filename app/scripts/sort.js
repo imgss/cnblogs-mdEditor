@@ -24,7 +24,11 @@
       // 博文加载完毕
       dftHTML = $postList.html();
     }
-    window.onhashchange = setDefaultHTML;
+    window.onhashchange = function(){
+      setDefaultHTML();
+      $('.sorter .dft').addClass('active');
+      $('.sorter .btn:not(.dft)').removeClass('active');
+    }
 
     function setDefaultHTML(){
       let timer = setInterval(function() {
