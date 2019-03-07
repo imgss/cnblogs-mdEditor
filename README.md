@@ -54,6 +54,9 @@
 
 ![搜索插入表情包](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/doutu.gif)
 
+- 对首页博文按阅读量等排序
+
+![sort](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/sort.png)
 
 ## 安装
 **可以通过应用商店安装 [传送门>>](https://chrome.google.com/webstore/detail/cnblogs/dmohalpippgmopnbpnknmapokjdkifmc)**
