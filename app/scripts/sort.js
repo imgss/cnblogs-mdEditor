@@ -1,7 +1,7 @@
 //https://www.cnblogs.com/
 /**
  * 用于支持首页博文的排序功能
- * 支持按推荐/ 按阅读量/ 按默认排序
+ * 支持按推荐/ 按阅读量/  按评论量/ 按默认排序
  */
 (function(){
   if (/^https:\/\/www\.cnblogs\.com\/#?/.test(window.location.href)) {
@@ -11,6 +11,7 @@
       <span class="btn read">按阅读</span>
       <span class="btn comment">按评论</span>
       <span class="btn dft">按默认</span>
+      <span class="btn">⇅</span>
     </div>`);
     let dftHTML;
     if ($('#tips_block').length === 1) {
@@ -37,6 +38,7 @@
       let sortFunction = (el1, el2) => $(el2).find('.diggnum').text() - $(el1).find('.diggnum').text();
       sort(sortFunction);
     });
+
     // 按阅读量排序
     $('.sorter .read').click(function() {
       function sortFunction(el1, el2) {
@@ -46,16 +48,17 @@
       };
       sort(sortFunction);
     });
+
     // 按评论排序
     $('.sorter .comment').click(function() {
       function sortFunction(el1, el2) {
         let comment_el1 = $(el1).find('.article_comment>.gray');
         let comment_el2 = $(el2).find('.article_comment>.gray');
-        console.log(comment_el2.text());
         return comment_el2.text().trim().slice(3, -1) - comment_el1.text().trim().slice(3, -1);
       };
       sort(sortFunction);
     });
+
     // 默认排序
     $('.sorter .dft').click(function() {
       $postList.html(dftHTML);
