@@ -4,16 +4,19 @@
  * 支持按推荐/ 按阅读量/  按评论量/ 按默认排序
  */
 (function(){
-  if (/^https:\/\/www\.cnblogs\.com\/#?/.test(window.location.href)) {
+  let isHomePage = /^https:\/\/www\.cnblogs\.com\/#?/.test(window.location.href);
+  if (isHomePage) {
     let $postList = $('#post_list');
+    let dftHTML;
+
     $postList.before(`<div class="sorter">
       <span class="btn recommend">按推荐</span>
       <span class="btn read">按阅读</span>
       <span class="btn comment">按评论</span>
-      <span class="btn dft">按默认</span>
-      <span class="btn">⇅</span>
+      <span class="btn dft active">按默认</span>
+      <span class="btn void">⇅</span>
     </div>`);
-    let dftHTML;
+
     if ($('#tips_block').length === 1) {
       // 加载状态
       setDefaultHTML();
@@ -64,7 +67,12 @@
       $postList.html(dftHTML);
     });
   
-    (a,b) => $(a).find('.diggnum').text() - $(b).find('.diggnum').text();
+    $('.sorter').on('click', '.btn:not(.void)', function(e){
+      $('.sorter .btn').each(function(i, el) {
+        el.classList.remove('active')
+      });
+      $(this).addClass('active');
+    })
   }
   function sort(sortFunction) {
     let $0 = document.getElementById('post_list');
