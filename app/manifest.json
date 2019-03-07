@@ -1,6 +1,6 @@
 {
   "name": "cnblogs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "manifest_version": 2,
   "homepage_url": "https://github.com/imgss/cnblogs-mdEditor",
   "description": "__MSG_appDescription__",
@@ -14,18 +14,19 @@
   "content_scripts": 
     [
       {
-          "matches": ["https://i.cnblogs.com/*"],
+          "matches": ["https://i.cnblogs.com/*", "https://www.cnblogs.com/"],
           "js": [
-            "scripts/jquery.js",
-            "scripts/codemirror.js",
-            "scripts/pangu.js",
-            "scripts/emoji.js",
+            "scripts/lib/jquery.js",
+            "scripts/lib/codemirror.js",
+            "scripts/lib/pangu.js",
+            "scripts/lib/emoji.js",
             "scripts/mode/markdown.js",
             "scripts/mode/css.js",
             "scripts/mode/javascript.js",
             "scripts/mode/xml.js",
             "scripts/mode/html.js",
-            "scripts/cnblogs.js"
+            "scripts/cnblogs.js",
+            "scripts/sort.js"
           ],
           "css": ["styles/3024-night.css","styles/codemirror.css", "styles/style.css"],
           "run_at": "document_end"
