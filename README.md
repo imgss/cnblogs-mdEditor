@@ -7,41 +7,23 @@
 
 由于博客园的markdown编辑器不是很好用，撸了一个chrome插件，改善一下用户体验
 
-## feature
-
-- 支持设置主题(light/dark)
-- 支持设置字体大小
-- 支持生成toc目录
-- 支持编辑器全屏
-- 支持切换行数显示
-- 支持emoji
-- 支持[盘古之白](https://github.com/vinta/pangu.js)
-- 支持高亮设置页面中的自定义css/页首页脚html
-
-**注意**:使用盘古之白时，emoji缩写的第一个冒号后面会被加空格，造成页面渲染不出表情，可通过在第一个冒号前面加空格解决
-
-## TODO
-
-- [x] 支持emoji
-- [x] 支持字数统计
-- [x] 支持给选中字体加颜色
-- [x] 支持表情包搜索(https://www.doutula.com/apidoc)
-
-## 截图
+## 功能/截图
 
 - 高亮markdown代码
 
 ![效果图](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/mdeditor.png)
 
-- 可生成博文目录
+- 生成博文目录
 
 ![加目录](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/shatter1.gif)
 
-- 可添加盘古之白
+- 添加盘古之白
 
 ![盘古之白](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/shatter2.gif)
 
-- 可插入emoji表情
+**注意**:使用盘古之白时，emoji缩写的第一个冒号后面会被加空格，造成页面渲染不出表情，可通过在第一个冒号前面加空格解决
+
+- 插入emoji表情
 
 ![emoji](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/emoji.png)
 
@@ -58,6 +40,15 @@
 - 对首页博文按阅读量等排序
 
 ![sort](https://raw.githubusercontent.com/imgss/cnblogs-mdEditor/master/images/sort.png)
+
+更多功能欢迎到issue中提出😊
+
+## TODO
+
+- [x] 支持emoji
+- [x] 支持字数统计
+- [x] 支持给选中字体加颜色
+- [x] 支持表情包搜索(https://www.doutula.com/apidoc)
 
 ## 安装
 **可以通过应用商店安装 [传送门>>](https://chrome.google.com/webstore/detail/cnblogs/dmohalpippgmopnbpnknmapokjdkifmc)**
