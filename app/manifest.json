@@ -11,6 +11,10 @@
     "128": "images/icon-128.png"
   },
   "default_locale": "en",
+  "background": {
+    "scripts": ["scripts/background.js"],
+    "persistent": true
+  },
   "content_scripts": 
     [
       {

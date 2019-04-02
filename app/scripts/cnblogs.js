@@ -89,14 +89,11 @@ getSetting().then(items => {
   // 上传图片 author: cnblogs.com
   (function($) {
     let $this;
-    let $host;
     let cursorPosi;
     let $textarea = $("#Editor_Edit_EditorBody");
-    let $ajaxUrl = "https://upload.cnblogs.com/imageuploader/CorsUpload";
 
-    $.fn.pasteUploadImage = function(host) {
+    $.fn.pasteUploadImage = function() {
       $this = $(this);
-      $host = host;
       $this.on("paste", function(event) {
         let filename, image, pasteEvent, text;
         pasteEvent = event.originalEvent;
@@ -187,34 +184,31 @@ getSetting().then(items => {
     };
 
     let uploadFile = function(file, filename, uploadType) {
-      let formData = new FormData();
-      formData.append("imageFile", file);
-      formData.append("host", $host);
-      formData.append("uploadType", uploadType);
+      console.log(file)
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        chrome.runtime.sendMessage(
+          {
+            contentScriptQuery: "uploadFile",
+            file: e.target.result,
+            filename: filename,
+            fileOptions: {
+              type: file.type,
+              lastModified: file.lastModified
+            },
+            uploadType: uploadType
+          },
+          res => {
+            if (res.success) {
+              return insertToTextArea(filename, res.message);
+            }
+            replaceLoadingTest(filename);
+            alert("上传失败! " + res.message);
 
-      $.ajax({
-        url: $ajaxUrl,
-        data: formData,
-        type: "post",
-        timeout: 300000,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        xhrFields: {
-          withCredentials: true
-        },
-        success: function(data) {
-          if (data.success) {
-            return insertToTextArea(filename, data.message);
-          }
-          replaceLoadingTest(filename);
-          alert("上传失败! " + data.message);
-        },
-        error: function(xOptions, textStatus) {
-          replaceLoadingTest(filename);
-          alert("上传失败! " + xOptions.responseText);
-        }
-      });
+          });
+      }
+      reader.readAsDataURL(file);
+
     };
 
     let insertToTextArea = function(filename, url) {
@@ -244,7 +238,7 @@ getSetting().then(items => {
     };
   })(jQuery);
 
-  $(".CodeMirror").pasteUploadImage("www.cnblogs.com");
+  $(".CodeMirror").pasteUploadImage();
 
   // 初始化菜单
   let menu = new Menu([
