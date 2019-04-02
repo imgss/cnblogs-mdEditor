@@ -100,11 +100,11 @@ getSetting().then(items => {
         if (pasteEvent.clipboardData && pasteEvent.clipboardData.items) {
           image = isImage(pasteEvent);
           if (image) {
+            event.preventDefault();
             filename = getFilename(pasteEvent) || generateFilename();
             text = "{{" + filename + "(uploading...)}}";
             pasteText(text);
             let file = image.getAsFile();
-            event.preventDefault();
             return uploadFile(file, filename, "Paste");
           }
         }
@@ -132,6 +132,7 @@ getSetting().then(items => {
     });
 
     let pasteText = function(text) {
+      console.log(text)
       let afterSelection, beforeSelection, caretEnd, caretStart, textEnd, posi;
       cursorPosi = editor.getCursor();
       caretStart = editor.indexFromPos(cursorPosi);
@@ -182,20 +183,17 @@ getSetting().then(items => {
       value = value.split("\r");
       return value[0];
     };
-
+    // 上传图片
     let uploadFile = function(file, filename, uploadType) {
-      console.log(file)
       var reader = new FileReader();
       reader.onload = function(e) {
+        // chrome 73之后无法在content scripts中跨域请求
+        // https://www.chromium.org/Home/chromium-security/extension-content-script-fetches
         chrome.runtime.sendMessage(
           {
             contentScriptQuery: "uploadFile",
             file: e.target.result,
             filename: filename,
-            fileOptions: {
-              type: file.type,
-              lastModified: file.lastModified
-            },
             uploadType: uploadType
           },
           res => {
@@ -208,16 +206,13 @@ getSetting().then(items => {
           });
       }
       reader.readAsDataURL(file);
-
     };
-
+    // 上传文件后将图片地址插入编辑器
     let insertToTextArea = function(filename, url) {
       return $textarea
         .val(function(index, val) {
-          return val.replace(
-            "{{" + filename + "(uploading...)}}",
-            "![" + filename + "](" + url + ")" + "\n"
-          );
+          let re = new RegExp(String.raw`(${filename})?\{\{${filename}\(uploading...\)\}\}`)
+          return val.replace( re, "![" + filename + "](" + url + ")" + "\n" );
         })
         .trigger("input");
     };
