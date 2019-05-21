@@ -67,7 +67,16 @@ getSetting().then(items => {
     lineNumbers: false
   });
   initEmoji(editor);
-
+  // 修复「恢复」缓存的功能
+  $('#Posts').click(function(e) {
+    console.log(e)
+    if(e.target.textContent === '恢复') {
+      console.log('开始恢复')
+      setTimeout(function() {
+        editor.setValue(textarea.value)
+      }, 0)
+    }
+  })
   textarea.nextElementSibling.style.fontSize = items.fontSize + "px";
 
   editor.on("change", function(target, e) {
