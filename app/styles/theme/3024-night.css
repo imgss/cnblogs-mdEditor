@@ -8,8 +8,7 @@
 
 */
 
-.cm-s-3024-night.CodeMirror { background: #090300; color: #d6d5d4; font-size: 14px}
-.cm-s-3024-night .CodeMirror-cursor { border-left-color: #fff!important}
+.cm-s-3024-night.CodeMirror { background: #090300; color: #d6d5d4; }
 .cm-s-3024-night div.CodeMirror-selected { background: #3a3432; }
 .cm-s-3024-night .CodeMirror-line::selection, .cm-s-3024-night .CodeMirror-line > span::selection, .cm-s-3024-night .CodeMirror-line > span > span::selection { background: rgba(58, 52, 50, .99); }
 .cm-s-3024-night .CodeMirror-line::-moz-selection, .cm-s-3024-night .CodeMirror-line > span::-moz-selection, .cm-s-3024-night .CodeMirror-line > span > span::-moz-selection { background: rgba(58, 52, 50, .99); }
@@ -23,11 +22,6 @@
 .cm-s-3024-night span.cm-comment { color: #cdab53; }
 .cm-s-3024-night span.cm-atom { color: #a16a94; }
 .cm-s-3024-night span.cm-number { color: #a16a94; }
-.cm-s-3024-night span.cm-header-1 { color: #a16a94; }
-.cm-s-3024-night span.cm-header-2 { color: #a16a94; }
-.cm-s-3024-night span.cm-header-3 { color: #a16a94; }
-.cm-s-3024-night span.cm-header-4 { color: #a16a94; }
-.cm-s-3024-night span.cm-header-5 { color: #a16a94; }
 
 .cm-s-3024-night span.cm-property, .cm-s-3024-night span.cm-attribute { color: #01a252; }
 .cm-s-3024-night span.cm-keyword { color: #db2d20; }
