@@ -314,6 +314,7 @@ function initMdEditor(config) {
 
         $('#themePicker')
         .html(options.map(o => `<option>${o}</option>`).join(''))
+        .val(config.theme || 'default')
         .change(e => {
           console.log(e)
           editor.setOption("theme", e.target.value)
