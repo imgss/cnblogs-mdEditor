@@ -3,7 +3,7 @@
  * 用于支持首页博文的排序功能
  * 支持按推荐/ 按阅读量/  按评论量/ 按默认排序
  */
-(function(){
+(function() {
   let isHomePage = /^https:\/\/www\.cnblogs\.com\/#?/.test(window.location.href);
   if (isHomePage) {
     let $postList = $('#post_list');

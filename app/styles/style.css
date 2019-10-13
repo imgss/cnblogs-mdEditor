@@ -111,3 +111,14 @@ span#cnblog-md-editor-imgs img {
   background-color: #e6e6e6;
   border-color: #adadad;
 }
+
+.menu{
+  background: #fff;
+  padding: 10px;
+  color: #4a4a4a;
+  border-radius: 6px;
+}
+.menu li{
+  list-style: none;
+  cursor: pointer;
+}
