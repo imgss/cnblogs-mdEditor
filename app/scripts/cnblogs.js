@@ -3,7 +3,7 @@
 //获取设置
 const getSetting = function() {
   return new Promise((resolve, reject) => {
-    chrome.storage.sync.get({ theme: "dark", fontSize: 14 }, function(items) {
+    chrome.storage.sync.get({ theme: "3024-night", fontSize: 14 }, function(items) {
       resolve(items);
     });
   });
@@ -141,10 +141,15 @@ function initMdEditor(config) {
 
   // 初始化博客文本编辑器
   const editor = CodeMirror.fromTextArea(textarea, {
-    mode: "markdown",
+    mode: {
+      name: "gfm",
+      tokenTypeOverrides: {
+        emoji: "emoji"
+      }
+    },
     value: "",
     lineWrapping: true,
-    theme: "default " + (config.theme === "dark" ? "3024-night" : ""),
+    theme: "default " + config.theme,
     allowDropFileTypes: ["image/png", "image/jpeg"],
     lineNumbers: false
   });
@@ -238,6 +243,84 @@ function initMdEditor(config) {
       text: "📐显示行数",
       listener: function() {
         editor.setOption("lineNumbers", !editor.getOption("lineNumbers"));
+      }
+    },
+    {
+      text: "主题切换",
+      template: `<span class="iconfont">🎨主题切换 <select id="themePicker"></select></span>`,
+      mounted: function() {
+        const options = [
+          "default",
+          "3024-night",
+          "abcdef",
+          "ambiance",
+          "base16-dark",
+          "base16-light",
+          "bespin",
+          "blackboard",
+          "cobalt",
+          "colorforth",
+          "darcula",
+          "dracula",
+          "duotone-dark",
+          "duotone-light",
+          "eclipse",
+          "elegant",
+          "erlang-dark",
+          "gruvbox-dark",
+          "hopscotch",
+          "icecoder",
+          "idea",
+          "isotope",
+          "lesser-dark",
+          "liquibyte",
+          "lucario",
+          "material",
+          "material-darker",
+          "material-palenight",
+          "material-ocean",
+          "mbo",
+          "mdn-like",
+          "midnight",
+          "monokai",
+          "moxer",
+          "neat",
+          "neo",
+          "night",
+          "nord",
+          "oceanic-next",
+          "panda-syntax",
+          "paraiso-dark",
+          "paraiso-light",
+          "pastel-on-dark",
+          "railscasts",
+          "rubyblue",
+          "seti",
+          "shadowfox",
+          "solarized dark",
+          "solarized light",
+          "the-matrix",
+          "tomorrow-night-bright",
+          "tomorrow-night-eighties",
+          "ttcn",
+          "twilight",
+          "vibrant-ink",
+          "xq-dark",
+          "xq-light",
+          "yeti",
+          "yonce",
+          "zenburn"
+        ];
+
+        $('#themePicker')
+        .html(options.map(o => `<option>${o}</option>`).join(''))
+        .change(e => {
+          console.log(e)
+          editor.setOption("theme", e.target.value)
+          chrome.storage.sync.set({
+            theme: e.target.value
+          })
+        })
       }
     },
     {
