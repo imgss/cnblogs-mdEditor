@@ -99,7 +99,7 @@ function initIconStyle() {
   document.head.appendChild(link);
 }
 
-function initSettingEditors() {
+function initSettingEditors(cssTextarea) {
   CodeMirror.fromTextArea(cssTextarea, {
     mode: "css",
     lineWrapping: true,
@@ -316,7 +316,6 @@ function initMdEditor(config) {
         .html(options.map(o => `<option>${o}</option>`).join(''))
         .val(config.theme || 'default')
         .change(e => {
-          console.log(e)
           editor.setOption("theme", e.target.value)
           chrome.storage.sync.set({
             theme: e.target.value
