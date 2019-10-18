@@ -28,7 +28,7 @@
       setDefaultHTML();
       $('.sorter .dft').addClass('active');
       $('.sorter .btn:not(.dft)').removeClass('active');
-    }
+    };
 
     function setDefaultHTML(){
       let timer = setInterval(function() {
@@ -73,10 +73,10 @@
   
     $('.sorter').on('click', '.btn:not(.void)', function(e){
       $('.sorter .btn').each(function(i, el) {
-        el.classList.remove('active')
+        el.classList.remove('active');
       });
       $(this).addClass('active');
-    })
+    });
   }
   function sort(sortFunction) {
     let $0 = document.getElementById('post_list');

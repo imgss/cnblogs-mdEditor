@@ -2,7 +2,7 @@
 
 //获取设置
 const getSetting = function() {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     chrome.storage.sync.get({ theme: "3024-night", fontSize: 14 }, function(items) {
       resolve(items);
     });
@@ -23,7 +23,7 @@ getSetting().then(config => {
 
 function updateWordsCounter(str) {
   let len = str.replace(/\s|\n|\r/gm, "").length;
-  document.querySelector(".word-count").textContent = `字数统计：${len}字`;
+  document.querySelector(".word-count").textContent = `字数：${len}字`;
 }
 
 function generateToc(md) {
@@ -172,7 +172,7 @@ function initMdEditor(config) {
   });
  $(textarea).css({fontSize: config.fontSize});
 
-  editor.on("change", function(target, e) {
+  editor.on("change", function(target) {
     let value = target.getValue();
     textarea.value = value;
     updateWordsCounter(value);
@@ -190,12 +190,12 @@ function initMdEditor(config) {
       cm.addWidget(posi, widget);
       cm.myWidget = widget;
       $(widget).on('click', 'li.color', function() {
-        setSelectionColor($('#colorInput').val())
-      })
+        setSelectionColor($('#colorInput').val());
+      });
     }
   });
 
-  $(document.body).click(function(e) {
+  $(document.body).click(function() {
     if (editor.myWidget) {
       editor.myWidget.remove();
     }
@@ -213,7 +213,7 @@ function initMdEditor(config) {
         let codeEl = $(".CodeMirror")[0];
         codeEl.webkitRequestFullScreen();
         // 退出全屏时重置宽高
-        document.addEventListener("webkitfullscreenchange", function(e) {
+        document.addEventListener("webkitfullscreenchange", function() {
           if (codeEl.style.width === "100vw") {
             codeEl.style.width = "";
             codeEl.style.height = "";
@@ -316,11 +316,11 @@ function initMdEditor(config) {
         .html(options.map(o => `<option>${o}</option>`).join(''))
         .val(config.theme || 'default')
         .change(e => {
-          editor.setOption("theme", e.target.value)
+          editor.setOption("theme", e.target.value);
           chrome.storage.sync.set({
             theme: e.target.value
-          })
-        })
+          });
+        });
       }
     },
     {
@@ -462,7 +462,7 @@ function initPasteUploadImage(editor) {
     });
   };
 
-  $textarea.on("input", function(e) {
+  $textarea.on("input", function() {
     editor.doc.setValue(this.value);
     editor.setCursor(cursorPosi);
   });
