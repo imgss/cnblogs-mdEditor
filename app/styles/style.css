@@ -114,8 +114,9 @@ span#cnblog-md-editor-imgs img {
 
 .menu{
   background: #fff;
-  padding: 10px;
+  padding: 0 10px;
   color: #4a4a4a;
+  z-index: 999;
   border-radius: 6px;
 }
 .menu li{

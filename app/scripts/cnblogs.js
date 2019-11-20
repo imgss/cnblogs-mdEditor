@@ -3,7 +3,7 @@
 //获取设置
 const getSetting = function() {
   return new Promise((resolve) => {
-    chrome.storage.sync.get({ theme: "3024-night", fontSize: 14 }, function(items) {
+    chrome.storage.sync.get({ theme: "3024-night", fontSize: 14, color: '#000000' }, function(items) {
       resolve(items);
     });
   });
@@ -20,58 +20,6 @@ getSetting().then(config => {
     initMdEditor(config);
   }
 });
-
-function updateWordsCounter(str) {
-  let len = str.replace(/\s|\n|\r/gm, "").length;
-  document.querySelector(".word-count").textContent = `字数：${len}字`;
-}
-
-function generateToc(md) {
-  // 过滤掉代码块中的 # 号
-  md = md.replace(/```[\s\S]*?```/g, "");
-
-  let re = /^\s*(#{1,6})\s+(.+)$/gm;
-  let tocList = [];
-
-  while (true) {
-    let match = re.exec(md);
-    if (!match) break;
-    tocList.push({
-      level: match[1].length,
-      content: match[2].replace("\n", ""),
-      all: match[0]
-    });
-  }
-
-  // 找出最大是几级标题
-  let minLevel = Math.min(...tocList.map(t => t.level));
-
-  //  - [提示](#提示)
-  let tocStr = tocList
-    .map(
-      item =>
-        "  ".repeat(item.level - minLevel) +
-        "- " +
-        `[${item.content}](#${item.content})`
-    )
-    .join("\n");
-
-  //<a name="锚点" id="锚点"></a>
-  for (let t of tocList) {
-    md = md.replace(
-      t.all,
-      `<a name="${t.content}" id="${t.content}"><h${t.level}>${t.content}</h${t.level}></a>\n`
-    );
-  }
-
-  let newMd = `#### 目录
-
-${tocStr}
-
-${md}
-`;
-  return newMd;
-}
 
 function initEmoji(cm) {
   let emojis = Object.values(emoji_list).map(e => e.char);
@@ -127,6 +75,7 @@ function initSettingEditors(cssTextarea) {
 }
 
 function initMdEditor(config) {
+
   const textarea = $("#Editor_Edit_EditorBody")[0];
   if (!textarea) return;
 
@@ -138,7 +87,6 @@ function initMdEditor(config) {
 
   // 不显示默认的上传图片按钮
   $("#edit_body>img").hide();
-
   // 初始化博客文本编辑器
   const editor = CodeMirror.fromTextArea(textarea, {
     mode: {
@@ -153,14 +101,8 @@ function initMdEditor(config) {
     allowDropFileTypes: ["image/png", "image/jpeg"],
     lineNumbers: false
   });
-  initEmoji(editor);
 
-  function  setSelectionColor(color) {
-    const selection = editor.getSelection();
-    if (selection) {
-      editor.replaceSelection(`<span style="color:${color}">${selection}</span>`);
-    }
-  }
+  initEmoji(editor);
 
   // 修复「恢复」缓存的功能
   $("#Posts").click(function(e) {
@@ -170,7 +112,7 @@ function initMdEditor(config) {
       }, 0);
     }
   });
- $(textarea).css({fontSize: config.fontSize});
+  $(textarea).css({fontSize: config.fontSize});
 
   editor.on("change", function(target) {
     let value = target.getValue();
@@ -190,7 +132,7 @@ function initMdEditor(config) {
       cm.addWidget(posi, widget);
       cm.myWidget = widget;
       $(widget).on('click', 'li.color', function() {
-        setSelectionColor($('#colorInput').val());
+        setSelectionColor(editor, $('#colorInput').val());
       });
     }
   });
@@ -205,6 +147,11 @@ function initMdEditor(config) {
   $(".CodeMirror").pasteUploadImage();
 
   // 初始化菜单
+  initMenu(editor, config);
+  updateWordsCounter(textarea.value);
+}
+
+function initMenu(editor, config) {
   const menu = new Menu([
     {
       text: "全屏模式",
@@ -395,12 +342,18 @@ function initMdEditor(config) {
       template:
         '<span class="iconfont"><span id="colorLabel">🌈字体颜色</span><input type="color" style="width:40px" id="colorInput"></span>',
       mounted: function() {
+        // 初始化字体颜色
+        $('#colorInput').val(config.color);
         $("#colorInput").change(function(e) {
-          setSelectionColor(e.target.value);
+          setSelectionColor(editor, e.target.value);
+          // 记住字体颜色
+          chrome.storage.sync.set({
+            color: e.target.value
+          });
         });
-
+        // 使用上次设置的颜色
         $("#colorLabel").click(function() {
-          setSelectionColor($('#colorInput').val());
+          setSelectionColor(editor, $('#colorInput').val());
         });
       }
     },
@@ -419,7 +372,6 @@ function initMdEditor(config) {
     }
   ]);
   menu.render();
-  updateWordsCounter(textarea.value);
 }
 
 function initPasteUploadImage(editor) {
@@ -569,6 +521,65 @@ function initPasteUploadImage(editor) {
   let generateFilename = function() {
     return "uploading-image-" + Math.floor(Math.random() * 1000000) + ".png";
   };
+}
+
+function updateWordsCounter(str) {
+  let len = str.replace(/\s|\n|\r/gm, "").length;
+  document.querySelector(".word-count").textContent = `字数：${len}字`;
+}
+
+function generateToc(md) {
+  // 过滤掉代码块中的 # 号
+  md = md.replace(/```[\s\S]*?```/g, "");
+
+  let re = /^\s*(#{1,6})\s+(.+)$/gm;
+  let tocList = [];
+
+  while (true) {
+    let match = re.exec(md);
+    if (!match) break;
+    tocList.push({
+      level: match[1].length,
+      content: match[2].replace("\n", ""),
+      all: match[0]
+    });
+  }
+
+  // 找出最大是几级标题
+  let minLevel = Math.min(...tocList.map(t => t.level));
+
+  //  - [提示](#提示)
+  let tocStr = tocList
+    .map(
+      item =>
+        "  ".repeat(item.level - minLevel) +
+        "- " +
+        `[${item.content}](#${item.content})`
+    )
+    .join("\n");
+
+  //<a name="锚点" id="锚点"></a>
+  for (let t of tocList) {
+    md = md.replace(
+      t.all,
+      `<a name="${t.content}" id="${t.content}"><h${t.level}>${t.content}</h${t.level}></a>\n`
+    );
+  }
+
+  let newMd = `#### 目录
+
+${tocStr}
+
+${md}
+`;
+  return newMd;
+}
+
+function setSelectionColor(editor, color) {
+  const selection = editor.getSelection();
+  if (selection) {
+    editor.replaceSelection(`<span style="color:${color}">${selection}</span>`);
+  }
 }
 
 function Menu(menuItems) {
