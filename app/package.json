@@ -9,7 +9,19 @@
     },
     "rules": {
         "semi": "error",
-        "no-unused-vars": 2
+        "no-unused-vars": 2,
+        "no-undef": 2
+    },
+    "env": {
+      "browser": true
+    },
+    "globals": {
+      "$": "readonly",
+      "chrome": "readonly",
+      "pangu": "readonly",
+      "emoji_list": "readonly",
+      "Promise": "readonly",
+      "CodeMirror": "readonly"
     }
   }
 }
