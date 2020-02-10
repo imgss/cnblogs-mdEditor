@@ -18,7 +18,7 @@
   "content_scripts": 
     [
       {
-          "matches": ["https://i.cnblogs.com/*", "https://i1.cnblogs.com/*", "https://www.cnblogs.com/"],
+          "matches": ["https://i.cnblogs.com/*", "https://i1.cnblogs.com/*", "https://www.cnblogs.com/*"],
           "js": [
             "scripts/lib/jquery.js",
             "scripts/lib/codemirror.js",

@@ -1,5 +1,10 @@
 "use strict";
 
+// 默认使用旧版后台
+$('#blog_nav_admin').attr('href', 'https://i1.cnblogs.com/').attr('title', '插件启用了旧版后台');
+console.log($('#blog_nav_newpost').length);
+$('#blog_nav_newpost').attr('href', 'https://i1.cnblogs.com/EditPosts.aspx?opt=1').attr('title', '插件启用了旧版后台');
+
 //获取设置
 const getSetting = function() {
   return new Promise((resolve) => {
@@ -20,59 +25,6 @@ getSetting().then(config => {
     initMdEditor(config);
   }
 });
-
-function initEmoji(cm) {
-  let emojis = Object.values(emoji_list).map(e => e.char);
-
-  const emojiBoard = $(`<div id="emojiBoard" style="display:none"></div>`);
-  emojiBoard.html(emojis.map(e => `<span>${e}</span>`).join(""));
-  // 插入emoji
-  emojiBoard.click(function(e) {
-    e.stopPropagation();
-    if (e.target.nodeName === "SPAN") {
-      let cursor = cm.getCursor();
-      cm.replaceRange(e.target.textContent, cursor, cursor);
-    }
-  }).appendTo(document.body);
-
-  document.body.onclick = function() {
-    emojiBoard.hide();
-  };
-}
-
-function initIconStyle() {
-  let link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = "https://at.alicdn.com/t/font_871145_xnvcmxbtu8h.css";
-  document.head.appendChild(link);
-}
-
-function initSettingEditors(cssTextarea) {
-  CodeMirror.fromTextArea(cssTextarea, {
-    mode: "css",
-    lineWrapping: true,
-    theme: "default ",
-    lineNumbers: true
-  });
-  const htmlTextareas = document.querySelectorAll(
-    "#Edit_EditorBody,#Edit_txbPageBeginHtml,#Edit_txbPageEndHtml"
-  );
-  Array.from(htmlTextareas).forEach(function(textarea) {
-    CodeMirror.fromTextArea(textarea, {
-      mode: {
-        name: "htmlmixed",
-        scriptTypes: [
-          { matches: /\/x-handlebars-template|\/x-mustache/i, mode: null }
-        ]
-      },
-      lineWrapping: false,
-      theme: "default ",
-      lineNumbers: false
-    });
-    textarea.nextElementSibling.style =
-      "height:300px;width:850px;padding:5px 10px;";
-  });
-}
 
 function initMdEditor(config) {
 
@@ -149,6 +101,59 @@ function initMdEditor(config) {
   // 初始化菜单
   initMenu(editor, config);
   updateWordsCounter(textarea.value);
+}
+
+function initEmoji(cm) {
+  let emojis = Object.values(emoji_list).map(e => e.char);
+
+  const emojiBoard = $(`<div id="emojiBoard" style="display:none"></div>`);
+  emojiBoard.html(emojis.map(e => `<span>${e}</span>`).join(""));
+  // 插入emoji
+  emojiBoard.click(function(e) {
+    e.stopPropagation();
+    if (e.target.nodeName === "SPAN") {
+      let cursor = cm.getCursor();
+      cm.replaceRange(e.target.textContent, cursor, cursor);
+    }
+  }).appendTo(document.body);
+
+  document.body.onclick = function() {
+    emojiBoard.hide();
+  };
+}
+
+function initIconStyle() {
+  let link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "https://at.alicdn.com/t/font_871145_xnvcmxbtu8h.css";
+  document.head.appendChild(link);
+}
+
+function initSettingEditors(cssTextarea) {
+  CodeMirror.fromTextArea(cssTextarea, {
+    mode: "css",
+    lineWrapping: true,
+    theme: "default ",
+    lineNumbers: true
+  });
+  const htmlTextareas = document.querySelectorAll(
+    "#Edit_EditorBody,#Edit_txbPageBeginHtml,#Edit_txbPageEndHtml"
+  );
+  Array.from(htmlTextareas).forEach(function(textarea) {
+    CodeMirror.fromTextArea(textarea, {
+      mode: {
+        name: "htmlmixed",
+        scriptTypes: [
+          { matches: /\/x-handlebars-template|\/x-mustache/i, mode: null }
+        ]
+      },
+      lineWrapping: false,
+      theme: "default ",
+      lineNumbers: false
+    });
+    textarea.nextElementSibling.style =
+      "height:300px;width:850px;padding:5px 10px;";
+  });
 }
 
 function initMenu(editor, config) {
@@ -591,6 +596,7 @@ function Menu(menuItems) {
     }
   }
 }
+
 Menu.prototype.addMenuItem = function({ text, className, listener, template }) {
   if (template) {
     let menuEl = $(template).click(listener)[0];
@@ -605,6 +611,7 @@ Menu.prototype.addMenuItem = function({ text, className, listener, template }) {
     this.menuList.push(el);
   }
 };
+
 Menu.prototype.render = function() {
   let div = document.createElement("div");
   div.className = "editor-menu";
