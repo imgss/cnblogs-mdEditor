@@ -107,7 +107,6 @@
     "storage",
     "clipboardRead",
     "clipboardWrite",
-    "activeTab",
     "webRequest",
     "*://*.cnblogs.com/"
   ],

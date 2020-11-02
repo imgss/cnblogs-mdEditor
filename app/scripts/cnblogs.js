@@ -287,25 +287,45 @@ function initMenu(editor, config) {
       template:
         '<span class="iconfont doutu">🌚斗图<input type="search" placeholder="搜索表情包" id="search"><span id="cnblog-md-editor-imgs" class="hidden"></span></span>',
       mounted: function() {
+        let bqbData = [];
+        $.get(
+          `https://raw.githubusercontent.com/zhaoolee/ChineseBQB/master/chinesebqb_github.json`
+        ).then((res) => {
+          localStorage.setItem('cnblogs-bqb', res);
+          const {data, info} = JSON.parse(res);
+          console.log(info, `${data.length}条数据`);
+          bqbData = data;
+        }, (err) => {
+          const cache = localStorage.getItem('cnblogs-bqb');
+          if (cache) {
+            bqbData = JSON.parse(cache).data;
+          }
+        })
         let search = $("#search");
         search.on(
           "input",
-          throttle(function(e) {
+          debounce(function(e) {
             if (!e.target.value) {
               return;
             }
-            $.get(
-              `https://www.doutula.com/api/search?keyword=${e.target.value}&mime=0`
-            ).then(function(data) {
-              if (data.status === 1) {
-                let html = data.data.list.map(img => {
-                  return `<img src=${img.image_url}>`;
-                });
-                $("#cnblog-md-editor-imgs").html(html);
-              }
-            });
+
+            const matchedBQB = bqbData.filter(data => {
+              return data.category.match(e.target.value);
+            })
+            console.log(matchedBQB.length);
+            if (matchedBQB.length) {
+              let html = matchedBQB.slice(0, 30).map(img => {
+                return `<img src=${img.url}>`;
+              });
+              $("#cnblog-md-editor-imgs").html(html);
+            } else {
+              $("#cnblog-md-editor-imgs").html('<div style="text-align:center;color:#9b9b9b;flex:1">没有数据</div>');
+              console.log('未搜索到表情');
+            }
           }, 200)
-        );
+        ).on('keydown', (e) => {
+          e.preventDefault();
+        });
 
         function throttle(fn, delay = 500, context) {
           var isLock = false;
@@ -318,6 +338,16 @@ function initMenu(editor, config) {
               isLock = false;
             }, delay);
           };
+        }
+
+        function debounce(fn, delay) {
+          let timer = null;
+          return function(...args) {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+              fn(...args);
+            }, delay);
+          }
         }
 
         $("#cnblog-md-editor-imgs").on("click", function(e) {
