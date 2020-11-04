@@ -4,6 +4,10 @@
 $('#blog_nav_admin').attr('href', 'https://i1.cnblogs.com/').attr('title', '插件启用了旧版后台');
 console.log($('#blog_nav_newpost').length);
 $('#blog_nav_newpost').attr('href', 'https://i1.cnblogs.com/EditPosts.aspx?opt=1').attr('title', '插件启用了旧版后台');
+$('.postDesc a').each((index, a) => {
+  const $a = $(a);
+  $a.attr('href', $a.attr('href').replace('https://i', 'https://i1')); 
+});
 
 //获取设置
 const getSetting = function() {
